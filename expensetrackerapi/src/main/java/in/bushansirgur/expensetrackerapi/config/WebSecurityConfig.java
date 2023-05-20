@@ -53,6 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	// Override method authenticationManagerBean in WebSecurityConfigurerAdapter to expose the AuthenticationManager 
+// 	built using configure(AuthenticationManagerBuilder) as a Spring bean:
+
+For example:
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
