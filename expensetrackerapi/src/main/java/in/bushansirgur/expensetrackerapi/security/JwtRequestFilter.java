@@ -51,22 +51,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		//Once we get the token, validate the token
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			
+			// extract token 
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 			
+			// validate token by comparing 
 			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 				
+				// generate auth token 
 				UsernamePasswordAuthenticationToken authToken = 
 						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				
+				// add the user details
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				
+				// store in the context 
 				SecurityContextHolder.getContext().setAuthentication(authToken);
 				
 			}
 			
 			
 		}
-		
+		// pass on to the next 
 		filterChain.doFilter(request, response);
 		
 	}
